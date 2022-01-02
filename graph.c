@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "graph.h"
 #include <stdlib.h>
-
+#include <math.h>
 
 
 // void new_node(pnode *temp){
@@ -170,14 +170,36 @@ void build_graph_cmd(pnode *head){
     *head= start;
 }
 
-void shortsPath_cmd(pnode head){
+void shortsPath_cmd(pnode *head){
     int src= -1;
     int dest= -1;
+    int counter= 0;
     char space= '!';
     scanf("%d", &src);
     scanf("%c", &space);
     scanf("%d", &dest);
     scanf("%c", &space);
+    pnode temp= *head;
+    while (temp != NULL){
+        temp->visit= 0;
+        temp->weight= INFINITY;
+        temp= temp->next;
+        counter++;
+    }
+    pnode node_src= search(head, src);
+    node_src->visit= 1;
+    node_src->weight= 0;
+    pedge s_edge= node_src->edges;
+    int min= INFINITY;
+    pedge small= NULL;
+    while(s_edge != NULL){
+        if(s_edge->weight<min){
+            min= s_edge->weight;
+            small= s_edge;
+        }
+        s_edge= s_edge->next;
+    }
+    small->endpoint->visit=1;
 
 }
 //void delete_node_cmd(pnode *head, int id){// change in h fule
