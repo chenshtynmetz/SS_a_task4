@@ -1,8 +1,7 @@
 #include <stdio.h>
-#include "ren.h"
-// #include <stdio.h>
+#include "graph.h"
 #include <stdlib.h>
-// #include "ren.h"
+
 
 
 // void new_node(pnode *temp){
@@ -11,6 +10,69 @@
 //             return;
 //         }
 // }
+
+pedge find_edge(pnode *curr){
+    pnode temp= *curr;
+    pedge t_e= temp->edges;
+    while (t_e != NULL){
+        if(t_e->endpoint->node_num == temp->node_num){
+            return t_e;
+        }
+        t_e= t_e->next;
+    }
+    return NULL;
+}
+
+void delete_edge(pnode *curr, int id){
+    pnode n= *curr;
+    pedge ed= n->edges;
+    if(ed->endpoint->node_num == id){
+        pedge temp= ed;
+        n->edges= ed->next;
+        free(temp);
+        return;
+    }
+    while (ed->next != NULL){
+        if(ed->next->endpoint->node_num == id){
+            pedge temp= ed->next;
+            ed->next = ed->next->next;
+            free(temp);
+            return;
+        }
+    }
+}
+void delete_node(pnode *head, pnode id){
+    pnode temp= *head;
+    while (temp->node_num != id->node_num){
+        temp= temp->next;
+    }
+    pedge temp_edge= temp->edges;
+    while(temp_edge!=NULL){
+        pedge curr= temp_edge;
+        temp_edge= temp_edge->next;
+        free(curr);
+    }
+    pnode start= *head;
+    while(start != NULL){
+        pnode *te= &start;
+        pedge e= find_edge(te);
+        if(e != NULL){
+            delete_edge(te, id->node_num);
+        }
+        start= start->next;
+    }
+    free(temp);
+}
+
+void deleteGraph_cmd(pnode *head){
+   pnode temp_node= *head;
+   while(temp_node != NULL){
+       pnode curr= temp_node;
+       temp_node=temp_node->next;
+       delete_node(head, curr);
+       *head= temp_node;
+   }
+}
 
 pnode search(pnode *head, int id){
     pnode temp= *head;
@@ -27,6 +89,9 @@ pnode search(pnode *head, int id){
 
 
 void build_graph_cmd(pnode *head){
+    if(*head != NULL){
+        deleteGraph_cmd(head);
+    }
     pnode start= *head;
     pnode new_node=NULL;
     pnode temp=NULL;
@@ -54,7 +119,7 @@ void build_graph_cmd(pnode *head){
         temp->next=new_node;
         temp= temp->next;
     }
-    *head= start;//לנסות לעשות נקסט עם וויל בשביל הצלעות!!!
+    *head= start;
     char ch= '!';
     while (scanf("%c", &ch))
     {
@@ -66,8 +131,8 @@ void build_graph_cmd(pnode *head){
             pnode curr= search(head, id);
             pedge *first_edge= &(curr->edges);
             pedge new_edge= NULL;
-            pedge edge_temp= NULL;
-            edge_temp= first_edge;
+//            pedge edge_temp= NULL;
+//            edge_temp= first_edge;
             int dest = -1;
             int w= -1;
             while(scanf("%d", &dest)){
@@ -105,6 +170,16 @@ void build_graph_cmd(pnode *head){
     *head= start;
 }
 
+void shortsPath_cmd(pnode head){
+    int src= -1;
+    int dest= -1;
+    char space= '!';
+    scanf("%d", &src);
+    scanf("%c", &space);
+    scanf("%d", &dest);
+    scanf("%c", &space);
+
+}
 //void delete_node_cmd(pnode *head, int id){// change in h fule
 //    pnode start = *head;
 //    pnode temp = start;
