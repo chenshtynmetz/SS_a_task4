@@ -4,13 +4,6 @@
 #include <math.h>
 
 
-// void new_node(pnode *temp){
-//      *temp= (pnode)malloc(sizeof(node));
-//         if(*temp == NULL){
-//             return;
-//         }
-// }
-
 pedge find_edge(pnode *curr){
     pnode temp= *curr;
     pedge t_e= temp->edges;
@@ -130,7 +123,7 @@ void build_graph_cmd(pnode *head){
             scanf("%c", &space);
             pnode curr= search(head, id);
             pedge *first_edge= &(curr->edges);
-            pedge new_edge= NULL;
+//            pedge new_edge= NULL;
 //            pedge edge_temp= NULL;
 //            edge_temp= first_edge;
             int dest = -1;
@@ -170,85 +163,179 @@ void build_graph_cmd(pnode *head){
     *head= start;
 }
 
-void shortsPath_cmd(pnode *head){
-    int src= -1;
-    int dest= -1;
-    int counter= 0;
+void insert_node_cmd(pnode *head){
+    int id= -1;
     char space= '!';
-    scanf("%d", &src);
+    scanf("%d", &id);
     scanf("%c", &space);
-    scanf("%d", &dest);
-    scanf("%c", &space);
+    pnode *pointer;
+    pnode n= search(head, id);
+    pointer= &n;
+    if(n != NULL){
+        pedge e= n->edges;
+        while (e != NULL){
+            delete_edge(pointer, e->endpoint->node_num);
+        }
+    }
+    else{
+        n= *head;
+        pnode temp= n;
+        while (temp->next != NULL){
+            temp= temp->next;
+        }
+        temp->next= (pnode) malloc(sizeof (node));
+        if(temp->next == NULL){
+            return;
+        }
+        temp->next->node_num= id;
+        temp->next->next= NULL;
+        temp->next->edges= NULL;
+        *head= n;
+    }
+    int dest= -1;
+    int w= -1;
+    pnode new_node= search(head, id);
+    pedge *first= &(new_node->edges);
+    while (scanf("%d", &dest)){
+        scanf("%c", &space);
+        *first= (pedge) malloc(sizeof (edge));
+        if (*first == NULL){
+            return;
+        }
+        (*first)->endpoint= search(head, dest);
+        (*first)->next= NULL;
+        scanf("%d", &w);
+        scanf("%c", &space);
+        (*first)->weight = w;
+        first= &((*first)->next);
+    }
+}
+
+pnode low_n(pnode *head){
+    pnode temp= *head;
+    pnode min= temp;
+    int maxi= (int)INFINITY;
+    while (temp != NULL){
+        if(temp->weight< maxi) {
+            if (temp->visit == 0) {
+                maxi= temp->weight;
+                min = temp;
+            }
+        }
+        temp= temp->next;
+    }
+    return min;
+}
+
+int shortsPath_cmd(pnode *head, int src, int dest){
+//    int src= -1;
+//    int dest= -1;
+    int counter= 0;
+//    char space= '!';
+//    scanf("%d", &src);
+//    scanf("%c", &space);
+//    scanf("%d", &dest);
+//    scanf("%c", &space);
     pnode temp= *head;
     while (temp != NULL){
         temp->visit= 0;
-        temp->weight= INFINITY;
+        temp->weight= (int)INFINITY-100;
         temp= temp->next;
         counter++;
     }
     pnode node_src= search(head, src);
-    node_src->visit= 1;
     node_src->weight= 0;
-    pedge s_edge= node_src->edges;
-    int min= INFINITY;
-    pedge small= NULL;
-    while(s_edge != NULL){
-        if(s_edge->weight<min){
-            min= s_edge->weight;
-            small= s_edge;
+    while (counter>0){
+        node_src= low_n(head);
+        if(node_src->node_num== dest){
+            return node_src->weight;
         }
-        s_edge= s_edge->next;
-    }
-    small->endpoint->visit=1;
-
-}
-//void delete_node_cmd(pnode *head, int id){// change in h fule
-//    pnode start = *head;
-//    pnode temp = start;
-//    if (temp->node_num == id){
-//        start = temp->next;
-//        //free()
-//
-//    }
-//    while (temp->next != NULL){
-//
-//    }
-//}
-
-int main(){
-    pnode head =NULL;
-    pnode *temp= &head;
-    build_graph_cmd(temp);
-    pnode t= head;
-    while (t != NULL)
-    {
-        printf("%d\n", t->node_num);
-        pedge te= t->edges;
-        while (te != NULL)
-        {
-            printf("%d\n", te->endpoint->node_num);
-            printf("%d\n", te->weight);
-            te= te->next;
+        node_src->visit= 1;
+        pedge s_edge= node_src->edges;
+        while (s_edge != NULL){
+            if(node_src->weight + s_edge->weight < s_edge->endpoint->weight){
+                s_edge->endpoint->weight= node_src->weight+s_edge->weight;
+            }
+            s_edge= s_edge->next;
         }
-        t= t->next;
+        counter--;
     }
-
-    // for(int i=0; i<4; i++){
-    //     printf("%d", t->node_num);
-    //     t= t->next;
-    // }
-
     return 0;
 }
 
+void swap(int* a, int *b){
+    int temp= *b;
+    *b = *a;
+    *a = temp;
+}
+void permotion(pnode *head, int arr[], int size, int num_of_cities, int *minpath){
+    if (size==1){
+        int path=0;
+        for(int j=0; j<num_of_cities-1; j++){
+            path+= shortsPath_cmd(head, arr[j], arr[j+1]);
+        }
+        if(path< *minpath){
+            *minpath= path;
+        }
+        return;
+    }
+    for(int j=0; j<size; j++){
+        permotion(head, arr,  size-1, num_of_cities, minpath);
+        if(size % 2 == 1){
+            swap(&arr[0], &arr[size-1]);
+        }
+        else{
+            swap(&arr[j], &arr[size-1]);
+        }
+    }
+}
 
-//int main() {
-//    printf("Hello, World!\n");
+void TSP_cmd(pnode *head){
+    int size= -1;
+    char space= '!';
+    int num= -1;
+    int *min= 0;
+    *min = (int)INFINITY;
+    scanf("%d", &size);
+    scanf("%c", &space);
+    int arr[size];
+    for(int i=0; i<size; i++){
+        scanf("%d", &num);
+        scanf("%c", &space);
+        arr[i]= num;
+    }
+    permotion(head, arr, size, size, min);
+    if(*min == INFINITY){
+        *min= -1;
+    }
+    printf("TSP shortest path: %d\n", *min);
+}
+
+
+//int main(){
+//    pnode head =NULL;
+//    pnode *temp= &head;
+//    build_graph_cmd(temp);
+//    pnode t= head;
+//    while (t != NULL)
+//    {
+//        printf("%d\n", t->node_num);
+//        pedge te= t->edges;
+//        while (te != NULL)
+//        {
+//            printf("%d\n", te->endpoint->node_num);
+//            printf("%d\n", te->weight);
+//            te= te->next;
+//        }
+//        t= t->next;
+//    }
 //
-//    int a = 5;
-//    int b = 3;
-//    int ans;
-//    ans = add(a, b);
-//    printf("%d", ans);
+//    // for(int i=0; i<4; i++){
+//    //     printf("%d", t->node_num);
+//    //     t= t->next;
+//    // }
+//
 //    return 0;
 //}
+
+
