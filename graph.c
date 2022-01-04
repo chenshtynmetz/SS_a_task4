@@ -312,10 +312,14 @@ void TSP_cmd(pnode *head){
 }
 
 
-//int main(){
-//    pnode head =NULL;
-//    pnode *temp= &head;
-//    build_graph_cmd(temp);
+int main(){
+    pnode head =NULL;
+    pnode *temp= &head;
+    build_graph_cmd(temp);
+//    char ch= 'a';
+//    scanf("%c", &ch);
+//    scanf("%c", &ch);
+//    TSP_cmd(temp);
 //    pnode t= head;
 //    while (t != NULL)
 //    {
@@ -329,13 +333,13 @@ void TSP_cmd(pnode *head){
 //        }
 //        t= t->next;
 //    }
-//
-//    // for(int i=0; i<4; i++){
-//    //     printf("%d", t->node_num);
-//    //     t= t->next;
-//    // }
-//
-//    return 0;
-//}
+
+    // for(int i=0; i<4; i++){
+    //     printf("%d", t->node_num);
+    //     t= t->next;
+    // }
+
+    return 0;
+}
 
 

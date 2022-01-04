@@ -4,7 +4,8 @@
 int main(){
     char ch= 'x';
     char space= '!';
-    pnode *head= NULL;
+    pnode temp= NULL;
+    pnode *head= &temp;
     while(scanf("%c", &ch) != EOF){
         scanf("%c", &space);
         if(ch == 'A'){
