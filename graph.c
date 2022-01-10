@@ -280,7 +280,7 @@ void insert_node_cmd(pnode *head){
 pnode low_n(pnode *head){
     pnode temp= *head;
     pnode min= temp;
-    int maxi= (int)INFINITY;
+    int maxi= INFINI;
     while (temp != NULL){
         if(temp->weight< maxi) {
             if (temp->visit == 0) {
@@ -298,7 +298,7 @@ int shortsPath_cmd(pnode *head, int src, int dest){
     pnode temp= *head;
     while (temp != NULL){
         temp->visit= 0;
-        temp->weight= INFINI-100;
+        temp->weight= INFINI-10;
         temp= temp->next;
         counter++;
     }
@@ -367,7 +367,8 @@ void TSP_cmd(pnode *head){
         arr[i]= num;
     }
     permotion(head, arr, size, size);
-    if(min == INFINITY){
+    int eps = 3;
+    if(INFINI-min<=eps){
         min= -1;
     }
     printf("TSP shortest path: %d \n", min);
