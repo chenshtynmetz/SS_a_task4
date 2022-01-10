@@ -11,10 +11,10 @@ int main(){
         if(ch == 'A'){
             build_graph_cmd(head);
         }
-        if(ch == 'B'){
+        else if(ch == 'B'){
             insert_node_cmd(head);
         }
-        if(ch == 'D')
+        else if(ch == 'D')
         {
             // delete_node_cmd(head);
             // printf("p");
@@ -26,7 +26,7 @@ int main(){
             delete_node_cmd(head);
             // printf("g");
         }
-        if(ch == 'S'){
+        else if(ch == 'S'){
             int src= -1;
             int dest= -1;
             scanf("%d", &src);
@@ -36,7 +36,7 @@ int main(){
             int path= shortsPath_cmd(head, src, dest);
             printf("Dijsktra shortest path: %d\n", path);
         }
-        if(ch == 'T'){
+        else if(ch == 'T'){
             TSP_cmd(head);
         }
     }
