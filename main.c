@@ -3,11 +3,9 @@
 
 int main(){
     char ch= 'x';
-    // char space= '!';
     pnode temp= NULL;
     pnode *head= &temp;
     while(scanf("%c", &ch) != EOF){
-        // scanf("%c", &space);
         if(ch == 'A'){
             build_graph_cmd(head);
         }
@@ -16,23 +14,13 @@ int main(){
         }
         else if(ch == 'D')
         {
-            // delete_node_cmd(head);
-            // printf("p");
-            // int id= -1;
-            // scanf("%d", &id);
-            // pnode n= search(head, id);
-            // delete_node(head, n);
-            // printf("j");
             delete_node_cmd(head);
-            // printf("g");
         }
         else if(ch == 'S'){
             int src= -1;
             int dest= -1;
             scanf("%d", &src);
-            // scanf("%c", &space);
             scanf("%d", &dest);
-            // scanf("%c", &space);
             int path= shortsPath_cmd(head, src, dest);
             printf("Dijsktra shortest path: %d \n", path);
         }
