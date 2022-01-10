@@ -6,21 +6,31 @@ int main(){
     char space= '!';
     pnode temp= NULL;
     pnode *head= &temp;
-    while(scanf("%c", &ch) != EOF){
+    while(scanf("%c", &ch) != '\n'){
+        // if(ch == 'Q'){
+        //     break;
+        // }
+        // printf("%c\n", ch);
         scanf("%c", &space);
         if(ch == 'A'){
             build_graph_cmd(head);
         }
-        else if(ch == 'B'){
+        if(ch == 'B'){
             insert_node_cmd(head);
         }
-        else if(ch == 'D'){
-            int id= -1;
-            scanf("%d", &id);
-            pnode n= search(head, id);
-            delete_node(head, n);
+        if(ch == 'D')
+        {
+            // delete_node_cmd(head);
+            // printf("p");
+            // int id= -1;
+            // scanf("%d", &id);
+            // pnode n= search(head, id);
+            // delete_node(head, n);
+            // printf("j");
+            delete_node_cmd(head);
+            // printf("g");
         }
-        else if(ch == 'S'){
+        if(ch == 'S'){
             int src= -1;
             int dest= -1;
             scanf("%d", &src);
@@ -30,9 +40,10 @@ int main(){
             int path= shortsPath_cmd(head, src, dest);
             printf("Dijsktra shortest path: %d\n", path);
         }
-        else if(ch == 'T'){
+        if(ch == 'T'){
             TSP_cmd(head);
         }
     }
+    deleteGraph_cmd(head);
     return 0;
 }

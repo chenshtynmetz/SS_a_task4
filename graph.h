@@ -25,7 +25,7 @@ void printGraph_cmd(pnode head); //for self debug
 void deleteGraph_cmd(pnode* head);
 int shortsPath_cmd(pnode *head, int src, int dest);
 void TSP_cmd(pnode *head);
-pedge find_edge(pnode *curr);
+pedge find_edge(pnode *curr, int dest);
 void delete_edge(pnode *curr, int id);
 void delete_node(pnode *head, pnode id);
 pnode search(pnode *head, int id);

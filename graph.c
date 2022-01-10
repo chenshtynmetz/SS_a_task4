@@ -4,17 +4,30 @@
 #include <math.h>
 
 
-pedge find_edge(pnode *curr){
-    pnode temp= *curr;
-    pedge t_e= temp->edges;
-    while (t_e != NULL){
-        if(t_e->endpoint->node_num == temp->node_num){
-            return t_e;
-        }
-        t_e= t_e->next;
-    }
-    return NULL;
-}
+// pedge find_edge(pnode *curr, int dest){
+//     pnode temp= *curr;
+//     pedge t_e= temp->edges;
+//     while (t_e != NULL){
+//         if(t_e->endpoint->node_num == dest){
+//             return t_e;
+//         }
+//         t_e= t_e->next;
+//     }
+//     return NULL;
+// }
+
+// void findANDdelete_edge(pnode curr, int dest){
+//     pnode temp= curr;
+//     pedge t_e= temp->edges;
+//     while (t_e->next != NULL){
+//         if(t_e->next->endpoint->node_num == dest){
+//             pedge temp=t_e->next;
+//             t_e->next=t_e->next->next;
+//             free(temp);
+//         }
+//         t_e= t_e->next;
+//     }
+// }
 
 void delete_edge(pnode *curr, int id){
     pnode n= *curr;
@@ -33,42 +46,150 @@ void delete_edge(pnode *curr, int id){
             return;
         }
     }
+    *curr = n;
 }
-void delete_node(pnode *head, pnode id){
-    pnode temp= *head;
-    while (temp->node_num != id->node_num){
-        temp= temp->next;
-    }
-    pedge temp_edge= temp->edges;
-    while(temp_edge!=NULL){
-        pedge curr= temp_edge;
-        temp_edge= temp_edge->next;
-        free(curr);
-    }
-    pnode start= *head;
-    while(start != NULL){
-        pnode *te= &start;
-        pedge e= find_edge(te);
-        if(e != NULL){
-            delete_edge(te, id->node_num);
+
+void delete_node_cmd(pnode *head){
+    // printf("node delete");
+    pnode temp = *head;
+    int id = -1;
+    char space = '!';
+    scanf("%d", &id);
+    scanf("%c", &space);
+    if(temp->node_num == id){
+        pedge t_e = temp->edges;
+        while (t_e != NULL)
+        {
+            pedge curr= t_e;
+            t_e= t_e->next;
+            free(curr);
         }
-        start= start->next;
+        pnode curr = *head;
+        curr= curr->next;
+        while (curr !=NULL)
+        {
+            t_e = curr->edges;
+            if(t_e->endpoint->node_num == id){
+                curr->edges = t_e->next;
+                free(t_e);
+            }
+            else{ 
+                t_e = t_e->next;
+                pedge prev = curr->edges;
+                while (t_e != NULL)
+                {
+                    if(t_e->endpoint->node_num == id){
+                        prev->next = t_e->next;
+                        free(t_e);
+                        break;
+                    }
+                    else{
+                        t_e= t_e->next;
+                        prev = prev->next;
+                    }
+                }
+                
+            }
+        }
+        
     }
-    free(temp);
+    else{
+        pnode curr_n = temp->next;
+        pnode prev_n = temp;
+        while(curr_n != NULL){
+            if(curr_n->node_num == id){
+                pedge t_e = curr_n->edges;
+                while (t_e != NULL)
+                {
+                    pedge curr= t_e;
+                    t_e= t_e->next;
+                    free(curr);
+                }
+                prev_n->next= curr_n->next;
+                pnode t_n= *head;
+                while (t_n != NULL)
+                {
+                    pedge t_e= t_n->edges;
+                    if(t_e->endpoint->node_num == id){
+                        t_n->edges= t_e->next;
+                        free(t_e);
+                    }
+                    else{
+                        pedge prev_e = t_e;
+                        t_e = t_e->next;
+                        while (t_e != NULL)
+                        {
+                            if(t_e->endpoint->node_num == id){
+                                prev_e = t_e->next;
+                                free(t_e);
+                                break;
+                            }
+                            else{
+                                t_e= t_e->next;
+                                prev_e= prev_e->next;
+                            }
+                        }
+                    }
+                }
+                
+            }
+            curr_n= curr_n->next;
+            prev_n= prev_n->next;
+        }
+    }
+    *head = temp;
 }
+// void delete_node(pnode *head, pnode id){
+//     pnode temp= *head;
+//     while (temp->node_num != id->node_num){
+//         temp= temp->next;
+//     }
+//     pedge temp_edge= temp->edges;
+//     while(temp_edge!=NULL){
+//         pedge curr= temp_edge;
+//         temp_edge= temp_edge->next;
+//         free(curr);
+//     }
+//     pnode start= *head;
+//     while(start != NULL){
+       
+//         findANDdelete_edge(start,id->node_num);
+//         //findANDdelete_edge()
+//         // pedge e= find_edge(start, id->node_num);
+//         // if(e != NULL)
+//         // {
+//         //     delete_edge(start, id->node_num);
+//         // }
+//         start= start->next;
+//     }
+//     printf("the node delete");
+//     free(temp);
+// }
 
 void deleteGraph_cmd(pnode *head){
    pnode temp_node= *head;
+   while (temp_node != NULL)
+   {
+       pnode *pointer = &temp_node;
+       pedge temp_edge = temp_node->edges;
+       if(temp_edge != NULL){
+        int des = temp_edge->endpoint->node_num;
+        delete_edge(pointer, des);
+        temp_edge = temp_node->edges;
+       }
+   }   
    while(temp_node != NULL){
        pnode curr= temp_node;
        temp_node=temp_node->next;
-       delete_node(head, curr);
+       free(curr);
+    //    delete_node(head, curr);
        *head= temp_node;
    }
 }
 
 pnode search(pnode *head, int id){
-    pnode temp= *head;
+    pnode n= *head;
+    pnode temp = n;
     while (temp!= NULL)
     {
         if(temp->node_num == id){
@@ -170,11 +291,14 @@ void insert_node_cmd(pnode *head){
     scanf("%c", &space);
     pnode *pointer;
     pnode n= search(head, id);
-    pointer= &n;
     if(n != NULL){
+        pointer= &n;
         pedge e= n->edges;
         while (e != NULL){
-            delete_edge(pointer, e->endpoint->node_num);
+            e= n->edges;
+            int des= e->endpoint->node_num;
+            delete_edge(pointer, des);
+            e= n->edges;
         }
     }
     else{
@@ -196,7 +320,7 @@ void insert_node_cmd(pnode *head){
     int w= -1;
     pnode new_node= search(head, id);
     pedge *first= &(new_node->edges);
-    while (scanf("%d", &dest)){
+    while (scanf("%d", &dest) && dest != EOF){
         scanf("%c", &space);
         *first= (pedge) malloc(sizeof (edge));
         if (*first == NULL){
@@ -209,6 +333,7 @@ void insert_node_cmd(pnode *head){
         (*first)->weight = w;
         first= &((*first)->next);
     }
+    // printf("the node add");
 }
 
 pnode low_n(pnode *head){
@@ -268,6 +393,7 @@ void swap(int* a, int *b){
     *b = *a;
     *a = temp;
 }
+
 void permotion(pnode *head, int arr[], int size, int num_of_cities, int *minpath){
     if (size==1){
         int path=0;
@@ -294,7 +420,8 @@ void TSP_cmd(pnode *head){
     int size= -1;
     char space= '!';
     int num= -1;
-    int *min= 0;
+    int a= 0;
+    int *min= &a;
     *min = (int)INFINITY;
     scanf("%d", &size);
     scanf("%c", &space);
@@ -312,10 +439,10 @@ void TSP_cmd(pnode *head){
 }
 
 
-int main(){
-    pnode head =NULL;
-    pnode *temp= &head;
-    build_graph_cmd(temp);
+// int main(){
+//     pnode head =NULL;
+//     pnode *temp= &head;
+//     build_graph_cmd(temp);
 //    char ch= 'a';
 //    scanf("%c", &ch);
 //    scanf("%c", &ch);
@@ -339,7 +466,7 @@ int main(){
     //     t= t->next;
     // }
 
-    return 0;
-}
+//     return 0;
+// }
 
 
