@@ -368,7 +368,7 @@ void TSP_cmd(pnode *head){
     if(*min == INFINITY){
         *min= -1;
     }
-    printf("TSP shortest path: %d\n", *min);
+    printf("TSP shortest path: %d \n", *min);
 }
 
 

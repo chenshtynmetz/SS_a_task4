@@ -34,7 +34,7 @@ int main(){
             scanf("%d", &dest);
             // scanf("%c", &space);
             int path= shortsPath_cmd(head, src, dest);
-            printf("Dijsktra shortest path: %d\n", path);
+            printf("Dijsktra shortest path: %d \n", path);
         }
         else if(ch == 'T'){
             TSP_cmd(head);
