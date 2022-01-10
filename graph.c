@@ -55,7 +55,7 @@ void delete_node_cmd(pnode *head){
     pnode* this_head = NULL;
     pnode prev = NULL;
     int id = -1;
-    char space = '!';
+    // char space = '!';
     scanf("%d", &id);
     // scanf("%c", &space);
     if(temp->node_num == id){
@@ -66,7 +66,7 @@ void delete_node_cmd(pnode *head){
         if(temp->next != NULL && temp->next->node_num == id){
             prev = temp;
         }
-        if(temp->next != NULL && temp->edges->endpoint->node_num == id){
+        if(temp->next != NULL && temp->edges != NULL && temp->edges->endpoint->node_num == id){
             pedge t_e = temp->edges;
             temp->edges = temp->edges->next;
             free(t_e);
@@ -185,7 +185,7 @@ void build_graph_cmd(pnode *head){
     pnode temp=NULL;
     int counter= 0;
     int id= -1;
-    char space= '!';
+    // char space= '!';
     scanf("%d", &counter);
     // scanf("%c", &space);
     start = (pnode)malloc(sizeof(node));
@@ -243,7 +243,7 @@ void build_graph_cmd(pnode *head){
 
 void insert_node_cmd(pnode *head){
     int id= -1;
-    char space= '!';
+    // char space= '!';
     scanf("%d", &id);
     // scanf("%c", &space);
     pnode *pointer;
@@ -368,7 +368,7 @@ void permotion(pnode *head, int arr[], int size, int num_of_cities, int *minpath
 
 void TSP_cmd(pnode *head){
     int size= -1;
-    char space= '!';
+    // char space= '!';
     int num= -1;
     int a= 0;
     int *min= &a;

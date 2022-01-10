@@ -3,7 +3,7 @@
 
 int main(){
     char ch= 'x';
-    char space= '!';
+    // char space= '!';
     pnode temp= NULL;
     pnode *head= &temp;
     while(scanf("%c", &ch) != EOF){
