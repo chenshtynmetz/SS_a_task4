@@ -117,23 +117,31 @@ void delete_node_cmd(pnode *head){
 
 
 void deleteGraph_cmd(pnode *head){
-   pnode temp_node= *head;
-   while (temp_node != NULL)
-   {
-       pnode *pointer = &temp_node;
-       pedge temp_edge = temp_node->edges;
-       if(temp_edge != NULL){
-        int des = temp_edge->endpoint->node_num;
-        delete_edge(pointer, des);
-        temp_edge = temp_node->edges;
-       }
-   }   
-   while(temp_node != NULL){
-       pnode curr= temp_node;
-       temp_node=temp_node->next;
-       free(curr);
-       *head= temp_node;
-   }
+    pnode temp_node= *head;
+    while (temp_node != NULL)
+    {
+    //    pnode *pointer = &temp_node;
+        pedge temp_edge = temp_node->edges;
+        while(temp_edge != NULL){
+            pedge curr_e = temp_edge;
+            temp_edge = temp_edge->next;
+            free(curr_e);
+        // int des = temp_edge->endpoint->node_num;
+        // delete_edge(pointer, des);
+        // temp_edge = temp_node->edges;
+        }
+        pnode curr_n = temp_node;
+        temp_node = temp_node->next;
+        free(curr_n);
+    }   
+//    while(temp_node != NULL){
+//        pnode curr= temp_node;
+//        temp_node=temp_node->next;
+//        free(curr);
+//        *head= temp_node;
+//    }
+    *head = NULL;
+    // printf("the graph delet");
 }
 
 pnode search(pnode *head, int id){
