@@ -6,12 +6,8 @@ int main(){
     char space= '!';
     pnode temp= NULL;
     pnode *head= &temp;
-    while(scanf("%c", &ch) != '\n'){
-        // if(ch == 'Q'){
-        //     break;
-        // }
-        // printf("%c\n", ch);
-        scanf("%c", &space);
+    while(scanf("%c", &ch) != EOF){
+        // scanf("%c", &space);
         if(ch == 'A'){
             build_graph_cmd(head);
         }
@@ -34,9 +30,9 @@ int main(){
             int src= -1;
             int dest= -1;
             scanf("%d", &src);
-            scanf("%c", &space);
+            // scanf("%c", &space);
             scanf("%d", &dest);
-            scanf("%c", &space);
+            // scanf("%c", &space);
             int path= shortsPath_cmd(head, src, dest);
             printf("Dijsktra shortest path: %d\n", path);
         }

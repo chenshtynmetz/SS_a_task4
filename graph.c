@@ -57,7 +57,7 @@ void delete_node_cmd(pnode *head){
     int id = -1;
     char space = '!';
     scanf("%d", &id);
-    scanf("%c", &space);
+    // scanf("%c", &space);
     if(temp->node_num == id){
         this_head = head;
     }
@@ -187,7 +187,7 @@ void build_graph_cmd(pnode *head){
     int id= -1;
     char space= '!';
     scanf("%d", &counter);
-    scanf("%c", &space);
+    // scanf("%c", &space);
     start = (pnode)malloc(sizeof(node));
     if(start == NULL){
         return;
@@ -211,17 +211,17 @@ void build_graph_cmd(pnode *head){
     char ch= '!';
     while (scanf("%c", &ch))
     {
-        scanf("%c", &space);
+        // scanf("%c", &space);
         if(ch == 'n'){
             counter--;
             scanf("%d", &id);
-            scanf("%c", &space);
+            // scanf("%c", &space);
             pnode curr= search(head, id);
             pedge *first_edge= &(curr->edges);
             int dest = -1;
             int w= -1;
             while(scanf("%d", &dest)){
-                scanf("%c", &space);
+                // scanf("%c", &space);
                 *first_edge= (pedge) malloc(sizeof (edge));
                 if(*first_edge == NULL){
                     return;
@@ -229,7 +229,7 @@ void build_graph_cmd(pnode *head){
                 (*first_edge)->endpoint= search(head, dest);
                 (*first_edge)->next= NULL;
                 scanf("%d", &w);
-                scanf("%c", &space);
+                // scanf("%c", &space);
                 (*first_edge)->weight= w;
                 first_edge= &((*first_edge)->next);
             }
@@ -245,7 +245,7 @@ void insert_node_cmd(pnode *head){
     int id= -1;
     char space= '!';
     scanf("%d", &id);
-    scanf("%c", &space);
+    // scanf("%c", &space);
     pnode *pointer;
     pnode n= search(head, id);
     if(n != NULL){
@@ -278,7 +278,7 @@ void insert_node_cmd(pnode *head){
     pnode new_node= search(head, id);
     pedge *first= &(new_node->edges);
     while (scanf("%d", &dest) && dest != EOF){
-        scanf("%c", &space);
+        // scanf("%c", &space);
         *first= (pedge) malloc(sizeof (edge));
         if (*first == NULL){
             return;
@@ -286,7 +286,7 @@ void insert_node_cmd(pnode *head){
         (*first)->endpoint= search(head, dest);
         (*first)->next= NULL;
         scanf("%d", &w);
-        scanf("%c", &space);
+        // scanf("%c", &space);
         (*first)->weight = w;
         first= &((*first)->next);
     }
@@ -374,11 +374,11 @@ void TSP_cmd(pnode *head){
     int *min= &a;
     *min = (int)INFINITY;
     scanf("%d", &size);
-    scanf("%c", &space);
+    // scanf("%c", &space);
     int arr[size];
     for(int i=0; i<size; i++){
         scanf("%d", &num);
-        scanf("%c", &space);
+        // scanf("%c", &space);
         arr[i]= num;
     }
     permotion(head, arr, size, size, min);
