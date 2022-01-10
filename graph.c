@@ -3,7 +3,8 @@
 #include <stdlib.h>
 #include <math.h>
 
-
+#define INFINI 1000000
+static int min = INFINI;
 // pedge find_edge(pnode *curr, int dest){
 //     pnode temp= *curr;
 //     pedge t_e= temp->edges;
@@ -297,7 +298,7 @@ int shortsPath_cmd(pnode *head, int src, int dest){
     pnode temp= *head;
     while (temp != NULL){
         temp->visit= 0;
-        temp->weight= (int)INFINITY-100;
+        temp->weight= INFINI-100;
         temp= temp->next;
         counter++;
     }
@@ -327,19 +328,19 @@ void swap(int* a, int *b){
     *a = temp;
 }
 
-void permotion(pnode *head, int arr[], int size, int num_of_cities, int *minpath){
+void permotion(pnode *head, int arr[], int size, int num_of_cities){
     if (size==1){
         int path=0;
         for(int j=0; j<num_of_cities-1; j++){
             path+= shortsPath_cmd(head, arr[j], arr[j+1]);
         }
-        if(path< *minpath){
-            *minpath= path;
+        if(path< min){
+            min= path;
         }
         return;
     }
     for(int j=0; j<size; j++){
-        permotion(head, arr,  size-1, num_of_cities, minpath);
+        permotion(head, arr,  size-1, num_of_cities);
         if(size % 2 == 1){
             swap(&arr[0], &arr[size-1]);
         }
@@ -353,9 +354,10 @@ void TSP_cmd(pnode *head){
     int size= -1;
     // char space= '!';
     int num= -1;
-    int a= 0;
-    int *min= &a;
-    *min = (int)INFINITY;
+    min = INFINI;
+    // int a= 0;
+    // int *min= &a;
+    // min = (int)INFINITY;
     scanf("%d", &size);
     // scanf("%c", &space);
     int arr[size];
@@ -364,11 +366,11 @@ void TSP_cmd(pnode *head){
         // scanf("%c", &space);
         arr[i]= num;
     }
-    permotion(head, arr, size, size, min);
-    if(*min == INFINITY){
-        *min= -1;
+    permotion(head, arr, size, size);
+    if(min == INFINITY){
+        min= -1;
     }
-    printf("TSP shortest path: %d \n", *min);
+    printf("TSP shortest path: %d \n", min);
 }
 
 

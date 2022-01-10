@@ -32,7 +32,7 @@ pnode search(pnode *head, int id);
 void insert_node_cmd(pnode *head);
 pnode low_n(pnode *head);
 void swap(int* a, int *b);
-void permotion(pnode *head, int arr[], int size, int num_of_cities, int *minpath);
+void permotion(pnode *head, int arr[], int size, int num_of_cities);
 void TSP_cmd(pnode *head);
 
 #endif
