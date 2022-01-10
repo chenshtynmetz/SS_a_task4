@@ -363,7 +363,6 @@ void TSP_cmd(pnode *head){
     int arr[size];
     for(int i=0; i<size; i++){
         scanf("%d", &num);
-        // scanf("%c", &space);
         arr[i]= num;
     }
     permotion(head, arr, size, size);
